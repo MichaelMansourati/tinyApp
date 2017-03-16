@@ -70,7 +70,9 @@ app.get("/urls/:id", (req, res) => {
 
 
 app.get(`/u/:id`, (req, res) => {
+  console.log(req.params.id);
   const longURL = urlDatabase[req.params.id];
+  const shortURL =
   console.log(longURL);
 
   if(longURL) {
@@ -122,6 +124,8 @@ app.post("/urls", (req, res) => {
   console.log(req.body);  // debug statement to see POST parameters
   res.redirect(`/urls/${id}`);
   urlDatabase[id] = req.body.longURL;
+  console.log(urlDatabase);
+  console.log(req.body.longURL);
 });
 
 //----------/      \----------//

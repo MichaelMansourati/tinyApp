@@ -9,7 +9,7 @@
       <span>localhost:8080/u/<%=key%></span>
       <span> <---> </span>
       <span><%= urls[key] %></span>
-      <a href="localhost:8080/urls/<%=key%>">Edit</a>
+      <span><a href="http://localhost:8080/urls/<%=key%>">Edit</a></span>
       <form method="POST" action="/urls/<%= key %>/delete"  style="display: inline-block">
         <button>delete</button>
       </form>
