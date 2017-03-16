@@ -1,14 +1,15 @@
 <html lang="en">
 <head>
-  <title>TinyApp</title>
 </head>
 <body>
-
+    <header>
+      <% include partials/_header %>
+    </header>
     <% Object.keys(urls).forEach(function(key) {%>
       <span>localhost:8080/u/<%=key%></span>
       <span> <---> </span>
       <span><%= urls[key] %></span>
-      <a href="localhost:8080/urls/<%+key%>">Edit</a>
+      <a href="localhost:8080/urls/<%=key%>">Edit</a>
       <form method="POST" action="/urls/<%= key %>/delete"  style="display: inline-block">
         <button>delete</button>
       </form>

@@ -1,7 +1,12 @@
-<html lang="en">
-<head>
-  <title>TinyApp</title>
-</head>
-<body>
-</body>
-</html>
+
+  <% if(username) {%>
+  <%= username %>
+  <form action="/logout" method="POST">
+    <button>logout</button>
+  </form>
+  <%} else {%>
+  <form action="/login" method="POST">
+    <input type="text" name="username" placeholder="username">
+    <input type="submit" name="login" value="login">
+  </form>
+  <% } %>
