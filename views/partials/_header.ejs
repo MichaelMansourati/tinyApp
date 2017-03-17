@@ -1,3 +1,7 @@
-<head>
-  <title>TinyApp</title>
-</head>
+<head><title>TinyApp</title></head>
+<a href="http://localhost:8080/register">Register</a>
+<% if (user) {%>
+<form action="/logout" method="POST">
+<input type="submit" name="logout" value="Logout" />
+</form>
+<%}%>

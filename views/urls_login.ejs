@@ -6,10 +6,14 @@
   <header>
     <% include partials/_header %>
   </header>
-  <form action="/register" method="POST">
+  <% if (user) {%>
+  <span>You are already logged in!</span>
+  <%} else {%>
+  <form action="/login" method="POST">
     <input type="email" name="email" placeholder="email">
     <input type="password" name="password" placeholder="password">
     <input type="submit">
   </form>
+  <%}%>
 </body>
 </html>

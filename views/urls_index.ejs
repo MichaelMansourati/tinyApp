@@ -5,7 +5,7 @@
     <header>
       <% include partials/_header %>
     </header>
-    <% Object.keys(urls).forEach(function(key) {%>
+    <% for (let key in urls) {%>
       <span>localhost:8080/u/<%=key%></span>
       <span> <---> </span>
       <span><%= urls[key] %></span>
@@ -14,7 +14,7 @@
         <button>delete</button>
       </form>
       </br>
-    <% }) %>
+    <% } %>
 
 </body>
 </html>
