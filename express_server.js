@@ -22,19 +22,32 @@ const urlDatabase = {
 //   ]
 // }
 
-//-------------GET-------------//
+const users = {
+  "aaa111": {
+    id: "aaa111",
+    email: "john@example.com",
+    password: "purplemonkeydinosaur"
+  },
+ "bbb222": {
+    id: "bbb222",
+    email: "jane@example.com",
+    password: "dishwasherfunk"
+  }
+}
+
+//------------LISTEN------------//
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
 
-
+//-------------GET-------------//
 
 app.get("/", (req, res) => {
   const currentUsername = req.cookies["username"];
-
-  console.log(currentUsername);
-  res.end("Hello!");
+  // console.log(currentUsername);
+  res.render("partials/_header.ejs", {username: currentUsername});
+  res.end("hello again.....")
 });
 
 
@@ -82,7 +95,17 @@ app.get(`/u/:id`, (req, res) => {
   }
 });
 
-//-----------POST-------------//
+
+app.get("/register", (req, res) => {
+  const currentUsername = req.cookies["email"]
+  // const email = req.body.email;
+  // const password = req.body.password;
+  // console.log(req.body);
+  res.render("urls_register", {users: currentUsername});
+})
+
+
+//-------------POST-------------//
 
 app.post("/urls/:id", (req, res) => {
   urlDatabase[req.params.id] = req.body.longURL;
@@ -100,11 +123,32 @@ app.post("/urls/:id", (req, res) => {
 // })
 
 app.post("/login", (req, res) => {
-  const username = req.body.username;
-  // const currentUsername = req.cookies["username"];
-  res.cookie("username", username);
-  res.redirect("/");
-})
+let id = generateRandomString()
+  let email = req.body.email;
+  let password = req.body.password;
+
+  if (email && password) {
+    if (validateEmail(users, email) === true) {
+      let randomUser = {
+          'id': id,
+          'email': email,
+          'password': password
+        }
+      users[id] = randomUser;
+      // console.log(req.body);
+      console.log(users);
+      res.cookie("id", id);
+
+      res.redirect("/");
+    } else {
+      res.statusCode = 400;
+      res.end("The email address you have chosen is already in use. Please choose another.");
+    };
+  } else {
+    res.statusCode = 400;
+    res.end("Please check to make sure all fields have been filled out appropriately.");
+  }
+});
 
 
 app.post("/logout", (req, res) => {
@@ -116,6 +160,35 @@ app.post("/logout", (req, res) => {
 app.post("/urls/:id/delete", (req, res) => {
   console.log(delete urlDatabase[req.params.id]);
   res.redirect('/urls');
+});
+
+
+app.post("/register", (req, res) => {
+  let id = generateRandomString()
+  let email = req.body.email;
+  let password = req.body.password;
+
+  if (email && password) {
+    if (validateEmail(users, email) === true) {
+      let randomUser = {
+          'id': id,
+          'email': email,
+          'password': password
+        }
+      users[id] = randomUser;
+      // console.log(req.body);
+      console.log(users);
+      res.cookie("id", id);
+
+      res.redirect("/");
+    } else {
+      res.statusCode = 400;
+      res.end("The email address you have chosen is already in use. Please choose another.");
+    };
+  } else {
+    res.statusCode = 400;
+    res.end("Please check to make sure all fields have been filled out appropriately.");
+  }
 });
 
 app.post("/urls", (req, res) => {
@@ -131,20 +204,20 @@ app.post("/urls", (req, res) => {
 //----------/      \----------//
 
 function generateRandomString() {
-  var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let text = "";
+  let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
   for(var i = 0; i < 6; i++) {
       text += possible.charAt(Math.floor(Math.random() * possible.length));
   }
   return text;
 }
-//------------------------//
 
-
-
-// app.get("/hello", (req, res) => {
-//   res.end("<html><body>Hello <b>World</b></body></html>\n");
-// });
-
+function validateEmail(database, emailAddress) {
+  for (let folks in database) {
+    if (database[folks].email === emailAddress) {
+      return false;
+    } else { return true };
+  }
+}
 
