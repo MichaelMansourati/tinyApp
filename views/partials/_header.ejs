@@ -1,7 +1,9 @@
 <head><title>TinyApp</title></head>
-<a href="http://localhost:8080/register">Register</a>
 <% if (user) {%>
+<span><%= user.email %></span><span> || </span><span><a href="/urls">My Links</a>
 <form action="/logout" method="POST">
 <input type="submit" name="logout" value="Logout" />
 </form>
+<%} else {%>
+<a href="http://localhost:8080/register">Register</a><span> || </span><a href="http://localhost:8080/login">Login</a>
 <%}%>

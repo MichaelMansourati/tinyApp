@@ -9,7 +9,7 @@
   <span><%=shortURL%></span>
   <span><---></span>
   <span><%=longURL%><br/></span>
-  <form action="/urls/<%=shortURL%>" method="POST">
+  <form action="/urls/<%=id%>" method="POST">
   <input id="longURL" type="text" name="longURL" value="http://">
   <input type="submit" value="Update">
   </form>
