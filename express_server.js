@@ -1,7 +1,7 @@
 
 const express = require("express");
 const app = express();
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const PORT = process.env.PORT || 8080; //default port 8080
 
 app.set("view engine", "ejs")
@@ -59,20 +59,17 @@ app.get("/", (req, res) => {
 
 app.get("/urls", (req, res) => {
   const currentUser =  users[req.cookies.id];
-  const templateVars = {
-    'user': currentUser,
-    'urls': urlDatabase[currentUser.id]
-  }
-  const loginLinkString = "Login here"
-
-  if (!currentUser) {
-    res.status(401).send("<p>You must be logged in to access this function. <a href='/login'>login here</a></p>");
-    console.log('if statement happened');
-  } else {
-    res.statusCode = 200;
-  }
-
+  if (currentUser) {
+    const templateVars = {
+      'user': currentUser,
+      'urls': urlDatabase[currentUser.id]
+    }
+  res.statusCode = 200;
   res.render("urls_index", templateVars);
+  } else {
+    res.status(401).send("<p>You must be logged in to access this function. <a href='/login'>login here</a></p>");
+  }
+  console.log(urlDatabasePublic);
 });
 
 
@@ -81,7 +78,6 @@ app.get("/urls/new", (req, res) => {
   const templateVars = {
     user : currentUser
   }
-  console.log("GET /urls/new req.params: ", req.params);
   if (!currentUser) {
     res.status(401).send("<p>You must be logged in to access this function. <a href='/login'>login here</a></p>");
   } else {
@@ -101,22 +97,26 @@ databases. databases should be dynamically created upon the first url creation i
 
 app.get("/urls/:id", (req, res) => {
   const currentUser =  users[req.cookies.id];
+  if (!currentUser) {
+    res.status(401).send("<p>You must be logged in to access this function. <a href='/login'>login here</a></p>");
+  }
+
   const templateVars = {
     'id': [req.params.id],
     shortURL: `localhost:8080/u/${[req.params.id]}`,
     user: currentUser
   };
+  console.log("req.params.id: ", req.params.id);
+  console.log("")
   if (urlDatabase[currentUser.id][req.params.id]) {
-    templateVars.longURL = urlDatabase[currentUser.id][req.params.id];
+    templateVars.longURL = `localhost:8080/u/${req.params.id}`;
     res.render("urls_show", templateVars);
     res.status(200);
-  } else for (let theId in urlDatabase) {
-    if (urlDatabase[theId][req.params.id]) {
-      console.log(urlDatabase[theId][req.params.id])
-      res.status(403).send("This short url belongs to another user and may only be modified them.");
-    } else if (!urlDatabase[currentUser.id][req.params.id]) {
-      res.status(404).send("This short url does not exist");
-    }
+  } else if (urlDatabasePublic[req.params.id]) {
+    // console.log(urlDatabasePublic[theId]);
+    res.status(403).send("This short url belongs to another user and may only be modified them.");
+  } else if (!urlDatabase[currentUser.id][req.params.id]) {
+    res.status(404).send("This short url does not exist");
   }
 });
 
@@ -218,7 +218,7 @@ app.post("/logout", (req, res) => {
 app.post("/urls/:id/delete", (req, res) => {
   currentUser = users[req.cookies.id];
   console.log(delete urlDatabase[currentUser.id][req.params.id]);
-  console.log(urlDatabase);
+  console.log(delete urlDatabasePublic[req.params.id]);
   res.redirect('/urls');
 });
 
@@ -226,7 +226,7 @@ app.post("/urls/:id/delete", (req, res) => {
 app.post("/register", (req, res) => {
   let id = generateRandomString();
   let email = req.body.email;
-  let hashPassword = bcrypt.hashSync(req.body.password, 10, function(err, res) {});
+  let hashPassword = bcrypt.hashSync(req.body.password, 10);
   console.log("req.body: ", req.body);
 
   if (email && hashPassword) {
@@ -238,6 +238,7 @@ app.post("/register", (req, res) => {
           'email': email,
           'hashPassword': hashPassword
       }
+      urlDatabase[id] = {};
       res.cookie("id", id);
       res.redirect("/");
     } else {
@@ -253,12 +254,17 @@ app.post("/register", (req, res) => {
 
 app.post("/urls", (req, res) => {
   const currentUser = users[req.cookies.id];
-  let id = generateRandomString();
-
+  let urlId = generateRandomString();
+  console.log("currentUser.id: ", currentUser.id);
+  console.log("req.body.longURL: ", req.body.longURL)
+  // console.log("urlDatabase[currentUser[id]]: ", urlDatabase[currentUser[id]])
   if (currentUser) {
-    urlDatabase[currentUser.id][id] = req.body.longURL;
-    urlDatabasePublic[id] = req.body.longURL;
-    res.redirect(`/urls/${id}`);
+    if (!urlDatabase[currentUser.id]) {
+      urlDatabase[currentUser.id] = {};
+    }
+    urlDatabase[currentUser.id][urlId] = req.body.longURL;
+    urlDatabasePublic[urlId] = req.body.longURL;
+    res.redirect(`/urls/${urlId}`);
     console.log(urlDatabase);
   } else {
     res.status(401).send("<p>You must be logged in to access this function. <a href='/login'>login here</a></p>");
@@ -300,24 +306,9 @@ function checkLogin (database, userEmail, userPassword) {
   })
   console.log("usersArr: ", usersArr);
   let foundUser = usersArr.find((user) => {
-    console.log("user: ", user);
-    return user.email === userEmail && bcrypt.compareSync(user.password, userPassword, function(err, res) {});
+    return user.email === userEmail && bcrypt.compareSync(userPassword, user.hashPassword);
   })
   if (foundUser) {
     return foundUser;
   }
-}
-
-
-
-function compileUserUrlDatabase(currentUser, currentUserid) {
-  const userUrlDatabase = {};
-  for (let key in urlDatabase) {
-    if (key[1] === currentUserid) {
-      userUrlDatabase[key] = key[1]
-    }
-  }
-  return userUrlDatabase;
-  console.log("uUD: ", userUrlDatabase);
-  console.log("currentUser: ", currentUser);
 }
