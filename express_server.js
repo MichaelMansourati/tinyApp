@@ -95,8 +95,8 @@ app.get("/urls/new", (req, res) => {
     res.status(401).send("<p>You must be logged in to access this function. <a href='/login'>login here</a></p>");
   } else {
     res.statusCode = 200;
+    res.render("urls_new", templateVars);
   }
-  res.render("urls_new", templateVars);
 });
 
 
