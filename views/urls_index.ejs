@@ -1,25 +1,44 @@
 <html lang="en">
 <head>
+  <title>TinyApp</title>
 </head>
 <body>
+  <div class="main-container">
     <header>
       <% include partials/_header %>
     </header>
     <% if (user) {%>
+    <table class="striped">
+      <tr>
+        <th>Short URL</th>
+        <th>Long URL</th>
+      </tr>
       <% for (let key in urls) {%>
-        <span>localhost:8080/u/<%=key%></span>
-        <span> <---> </span>
-        <span><%=urls[key] %></span>
-        <span><a href="http://localhost:8080/urls/<%=key%>">Edit</a></span>
-        <form method="POST" action="/urls/<%= key %>/delete"  style="display: inline-block">
-          <button>delete</button>
-        </form>
-        </br>
+      <tr>
+        <td>
+          <a href="http://localhost:8080/u/<%=key%>"><%=key%></a>
+        </td>
+        <td>
+          <a href="<%=urls[key]%>"><%=urls[key]%></a>
+        </td>
+        <td>
+          <a href="http://localhost:8080/urls/<%=key%>"><i class="far fa-edit"></i></a>
+        </td>
+        <td>
+          <form class="delete" method="POST" action="/urls/<%= key %>/delete"  style="display: inline-block">
+            <button class="invisible"><i class="far fa-trash-alt"></i></button>
+          </form>
+        </td>
+      </tr>
       <% } %>
-        <span><a href="http://localhost:8080/urls/new">Create a New Short Link</a>
+    </table>
+    <span>
+      <a href="http://localhost:8080/urls/new">new short URL</a>
+    </span>
     <%} else {%>
     <span>You must be logged in to access this function. <a href="http://localhost:8080/login">Login here.</a></span>
     <%}%>
+  </div>
 </body>
 </html>
 

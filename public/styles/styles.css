@@ -1,0 +1,19 @@
+td, th {
+  padding: 8px;
+}
+
+.main-container {
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+}
+
+.invisible {
+  border: none;
+  background: none;
+  font-size: medium;
+}
+
+.delete {
+  margin: 0;
+}

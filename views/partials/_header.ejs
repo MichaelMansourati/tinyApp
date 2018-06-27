@@ -1,9 +1,17 @@
-<head><title>TinyApp</title></head>
+<head>
+  <title>TinyApp</title>
+  <link rel="stylesheet" type="text/css" href="/styles/styles.css">
+  <%# fontawesome %>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+</head>
 <% if (user) {%>
 <span><%= user.email %></span><span> || </span><span><a href="/urls">My Links</a>
 <form action="/logout" method="POST">
 <input type="submit" name="logout" value="Logout" />
 </form>
 <%} else {%>
-<a href="http://localhost:8080/register">Register</a><span> || </span><a href="http://localhost:8080/login">Login</a>
+<a href="http://localhost:8080/register">Register</a>
+<span> || </span>
+<a href="http://localhost:8080/login">Login</a>
 <%}%>
