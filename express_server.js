@@ -1,7 +1,3 @@
-//------...THINGS...------//
-
-
-
 const express = require("express");
 const app = express();
 const bcrypt = require("bcrypt");
@@ -286,10 +282,9 @@ function validateEmail(database, emailAddress) {
   for (let folks in database) {
     if (database[folks].email === emailAddress) {
       return false;
-    } else {
-      return true;
     }
   }
+  return true;
 }
 
 
