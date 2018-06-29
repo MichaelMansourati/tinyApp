@@ -1,17 +1,15 @@
 <html lang="en">
-<head>
-  <title>TinyApp</title>
-</head>
-<body>
-  <div class="main-container">
-    <header>
-      <% include partials/_header %>
-    </header>
-    <form action="/urls" method="POST" style="margin:150px;">
-      <label for="longURL">Enter a URL:</label>
-      <input id="longURL" type="text" name="longURL" value="http://" style="width: 300px">
-      <input type="submit" value="Submit">
-    </form>
-  </div>
-</body>
+  <% include partials/_head %>
+  <body>
+    <div class="main-container">
+      <header>
+        <% include partials/_header %>
+      </header>
+      <form action="/urls" method="POST" style="margin:150px;">
+        <label for="longURL">Enter a URL:</label>
+        <input id="longURL" type="text" name="longURL" value="http://" style="width: 300px">
+        <input type="submit" value="Submit">
+      </form>
+    </div>
+  </body>
 </html>

@@ -1,22 +1,19 @@
 <html lang="en">
-<head>
-  <title>TinyApp</title>
-</head>
-<body>
-  <div class="main-container">
-    <header>
-        <% include partials/_header %>
-    </header>
-    <span><%=shortURL%></span>
-    <span><---></span>
-    <span><%=longURL%><br/></span>
-    <form action="/urls/<%=id%>" method="POST">
-      <input id="longURL" type="text" name="longURL" value="http://">
-      <input type="submit" value="Update">
-    </form>
-    <form method="POST" action="/urls/<%=id%>/delete"  style="display: inline-block">
-      <button>delete</button>
-    </form>
-  </div>
-</body>
+  <% include partials/_head %>
+  <body>
+    <div class="main-container">
+      <header>
+          <% include partials/_header %>
+      </header>
+      <span><%=shortURL%></span>
+      <span> = </span>
+      <form action="/urls/<%=id%>" method="POST">
+        <input class="longURL" id="longURL" type="text" name="longURL" value="<%=longURL%>">
+        <input type="submit" value="Update">
+      </form>
+      <form method="POST" action="/urls/<%=id%>/delete"  style="display: inline-block">
+        <button>delete</button>
+      </form>
+    </div>
+  </body>
 </html>
