@@ -1,8 +1,8 @@
-#TinyApp
+# TinyApp
 
 TinyApp is a web application built in Node.js and Express.js that allows users to create shortened version of URLS.
 
-##Preview
+## Preview
 
 ![Login page](./docs/login.png)
 
@@ -10,7 +10,7 @@ TinyApp is a web application built in Node.js and Express.js that allows users t
 
 ![Edit page for existing URLS](./docs/update.png)
 
-##dependencies
+## Dependencies
 
 • Node.js
 • Express.js
