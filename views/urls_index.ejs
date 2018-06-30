@@ -2,9 +2,7 @@
   <% include partials/_head %>
   <body>
     <div class="main-container">
-      <header>
-        <% include partials/_header %>
-      </header>
+    <% include partials/_header %>
       <% if (user) {%>
         <% console.log(Object.keys(urls).length) %>
         <% if (Object.keys(urls).length) {%>
@@ -33,9 +31,9 @@
           <% } %>
         <% } %>
       </table>
-      <span>
+      <p>
         <a href="http://localhost:8080/urls/new">new short URL</a>
-      </span>
+      </p>
       <%} else {%>
       <span>You must be logged in to access this function. <a href="http://localhost:8080/login">Login here.</a></span>
       <%}%>

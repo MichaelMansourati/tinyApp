@@ -2,15 +2,15 @@
   <% include partials/_head %>
   <body>
     <div class="main-container">
-      <header>
-          <% include partials/_header %>
-      </header>
-      <span><%=shortURL%></span>
-      <span> = </span>
-      <form action="/urls/<%=id%>" method="POST">
-        <input class="longURL" id="longURL" type="text" name="longURL" value="<%=longURL%>">
-        <input type="submit" value="Update">
-      </form>
+    <% include partials/_header %>
+      <div class="update-container">
+        <a href=<%=longURL%>><%=shortURL%></a>
+        <span>&nbsp;=&nbsp;</span>
+        <form action="/urls/<%=id%>" method="POST">
+          <input class="longURL" id="longURL" type="text" name="longURL" value="<%=longURL%>">
+          <input type="submit" value="Update">
+        </form>
+      </div>
       <form method="POST" action="/urls/<%=id%>/delete"  style="display: inline-block">
         <button>delete</button>
       </form>
