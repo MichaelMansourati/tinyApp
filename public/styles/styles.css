@@ -1,28 +1,9 @@
+html {
+  background: #d3d3d3;
+}
+
 td, th {
   padding: 8px;
-}
-
-.main-container {
-  width: 100%;
-  max-width: 800px;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 9px black;
-  border-style: double;
-  border-radius: 30px;
-  padding: 10px 0;
-}
-
-.invisible {
-  border: none;
-  background: none;
-  font-size: medium;
-}
-
-.delete {
-  margin: 0;
 }
 
 header {
@@ -35,3 +16,37 @@ header {
 .header-item {
   margin: 0;
 }
+
+.main-container {
+  width: 100%;
+  max-width: 800px;
+  background: #ffffff;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+/*  border: 9px black;
+  border-style: double;
+  border-radius: 30px;*/
+  padding: 10px 0;
+}
+
+.invisible {
+  border: none;
+  background: none;
+  font-size: inherit;
+}
+
+.delete {
+  margin: 0;
+}
+
+.update-container {
+  margin-top: 10px;
+  display: flex;
+}
+
+.longURL {
+  width: 200px;
+}
+
